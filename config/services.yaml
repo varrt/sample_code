@@ -1,0 +1,49 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    App\UI\Rest\Controller\:
+        resource: '../src/UI/Rest/Controller/'
+        tags: ['controller.service_arguments']
+
+    Psr\EventDispatcher\EventDispatcherInterface: '@event_dispatcher'
+
+    ## REPOSITORIES ##
+    App\Infrastructure\Repository\DepartmentRepository:
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['App\Domain\Department\Department']
+
+    App\Domain\Department\Repository\DepartmentRepositoryInterface: '@App\Infrastructure\Repository\DepartmentRepository'
+
+    App\Infrastructure\Repository\EmployeeRepository:
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['App\Domain\Employee\Employee']
+
+    App\Domain\Employee\Repository\EmployeeRepositoryInterface: '@App\Infrastructure\Repository\EmployeeRepository'
+
+    App\Infrastructure\Repository\Projection\SalaryReportRepository:
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['App\Application\Projection\SalaryReport\SalaryReport']
+
+    App\Application\Projection\SalaryReport\SalaryReportProjectionRepositoryInterface: '@App\Infrastructure\Repository\Projection\SalaryReportRepository'
+
+    ## HANDLERS ##
+    App\Application\Command\:
+        resource: '../src/Application/Command'
+        tags:
+            - { name: 'tactician.handler', typehints: true }
+
+    ## QUERIES ##
+    App\Application\Query\SalaryReportQueryInterface: '@App\Infrastructure\Query\SalaryReportQuery'
+
+    ## LISTENERS ##
+    App\Application\Listener\EmployeeCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: App\Application\Event\EmployeeCreatedEvent, method: onEmployeeCreated }

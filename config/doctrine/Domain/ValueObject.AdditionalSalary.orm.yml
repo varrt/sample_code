@@ -1,0 +1,14 @@
+App\Domain\ValueObject\AdditionalSalary:
+  type: embeddable
+
+  fields:
+    percentValue:
+      type: integer
+
+  embedded:
+    amountValue:
+      class: App\Domain\ValueObject\Money
+      columnPrefix: false
+    type:
+      class: App\Domain\ValueObject\AdditionalSalaryType
+      columnPrefix: false

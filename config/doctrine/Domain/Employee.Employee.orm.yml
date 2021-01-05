@@ -1,0 +1,29 @@
+App\Domain\Employee\Employee:
+  type: entity
+  table: employee
+  repositoryClass: App\Infrastructure\Repository\EmployeeRepository
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    firstName:
+      type: string
+    lastName:
+      type: string
+
+  embedded:
+    baseSalary:
+      class: App\Domain\ValueObject\Money
+      columnPrefix: "base_salary_"
+    additionalSalary:
+      class: App\Domain\ValueObject\AdditionalSalary
+      columnPrefix: "additional_salary_"
+
+  manyToOne:
+    department:
+      targetEntity: App\Domain\Department\Department
+      cascade: [ "persist" ]
+      joinColumn:
+        name: department_id

@@ -1,0 +1,7 @@
+App\Domain\ValueObject\Money:
+  type: embeddable
+
+  fields:
+    value:
+      type: integer
+

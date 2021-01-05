@@ -1,0 +1,12 @@
+App\Domain\Department\Department:
+  type: entity
+  table: department
+  repositoryClass: App\Infrastructure\Repository\DepartmentRepository
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    name:
+      type: string

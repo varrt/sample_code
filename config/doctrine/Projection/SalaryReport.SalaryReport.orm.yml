@@ -1,0 +1,24 @@
+App\Application\Projection\SalaryReport\SalaryReport:
+  type: entity
+  table: salary_report_projection
+  repositoryClass: App\Infrastructure\Repository\Projection\SalaryReportRepository
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    firstName:
+      type: string
+    lastName:
+      type: string
+    department:
+      type: string
+    baseSalary:
+      type: integer
+    additionType:
+      type: string
+    additionalAmount:
+      type: integer
+    totalSalary:
+      type: integer

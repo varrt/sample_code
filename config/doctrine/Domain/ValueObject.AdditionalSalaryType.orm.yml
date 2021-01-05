@@ -1,0 +1,7 @@
+App\Domain\ValueObject\AdditionalSalaryType:
+  type: embeddable
+
+  fields:
+    type:
+      type: string
+
